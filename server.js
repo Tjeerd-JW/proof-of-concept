@@ -1,5 +1,6 @@
 import express from "express";
 import { Liquid } from "liquidjs";
+import { parseFeed } from 'feedsmith'
 
 const app = express();
 
@@ -19,6 +20,18 @@ app.listen(app.get('port'), function () {
     console.log(`Project draait via http://localhost:${app.get('port')}/\n\nGleep glorp hij staat aan`)
 })
 
+// app.get('/', async function (request, response) {
+//     response.render('index.liquid')
+// })
+
+
 app.get('/', async function (request, response) {
-    response.render('index.liquid')
+
+  const tweakersResponse = await fetch('https://gathering.tweakers.net/rss/list_topics/105')
+  const tweakersResponseXML = await tweakersResponse.text()
+
+  const { format, feed } = parseFeed(tweakersResponseXML)
+  // console.log(feed) // Om te debuggen
+
+  response.render('index.liquid', {items: feed.items})
 })

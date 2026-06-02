@@ -5,5 +5,24 @@
     <h1>Dashboard</h1>
   </article>
 </section>
+<details>
+  <summary>Debug</summary>
+  <pre>{{ items | json: 4 }}</pre>
+</details>
+
+{% for item in items %}
+  <article>
+    <h2>{{ item.title }}</h2>
+    <p>geupload op {{ item.pubDate }}</p>
+    <p>{{ item.description }}</p>
+    <ul>
+      {% for categorie in categories %}
+        <li>
+          {{ categorie.name }}
+        </li>
+      {% endfor %}
+    </ul>
+  </article>
+{% endfor %}
 
 {% render 'partials/foot.liquid' %}
