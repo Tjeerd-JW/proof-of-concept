@@ -5,7 +5,22 @@
     box-sizing: border-box;
 }
 
-html{
+html {
+    /* colors */
+    --logo: #D9E54D;
+    --brand: #A11236;
+    --accent: #004D99;
+    --color-white: #FFFFFF;
+    --color-grey-95: #F1F2F4;
+    --color-grey-85: #D5D9DD;
+    --color-grey-75: #B9BFC6;
+    --color-grey-65: #9DA5AF;
+    --color-grey-55: #818C98;
+    --color-grey-45: #67737E;
+    --color-grey-35: #505962;
+    --color-grey-25: #394046;
+    --color-grey-15: #22262A;
+    --color-grey-5: #0B0D0E;
 
     /* spacing */
     /* 0.125rem */
@@ -26,6 +41,30 @@ html{
     --space-2xl: 48px;
     /* 4rem */
     --space-3xl: 64px;
+
+    /* fonts */
+    --font-heading: "IBM Plex Sans Condensed", sans-serif;
+    --font-body: Arial, sans-serif;
+    --font-weight-heading: 600;
+    --font-weight-body: 400;
+
+}
+
+body {
+    font-family: var(--font-body);
+    font-size: var(--font-size-md);
+    color: var(--color-grey-15);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-heading);
+    font-weight: var(--font-weight-heading);
+    color: (var(--color-grey-15));
 }
 
 /* container */
