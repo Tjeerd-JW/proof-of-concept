@@ -1,0 +1,4 @@
+.header{
+    padding: var(--space-md) 0;
+    background-color: var(--brand);
+}
