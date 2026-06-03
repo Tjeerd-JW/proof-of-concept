@@ -1,19 +1,29 @@
 {% render 'partials/head.liquid', title: 'Categorie' %}
 
+<section class="layout">
+    <h1 class="container">Statistieken </h1>
+</section>
+<details>
+  <summary>Debug</summary>
+  <pre>{{ items | json: 4 }}</pre>
+</details>
+
 {% comment %} {{ items | json }} {% endcomment %}
+<section class="layout">
+  <article class="container">
+    <ul>
+      {% for item in items %}
+        {% assign topicID = item.comments | split: '/' %}
 
-<ul>
-  {% for item in items %}
-    {% assign topicID = item.comments | split: '/' %}
+        <li>
+          <h3>{{ item.title }}</h3>
 
-
-    <li>
-      <h3>{{ item.title }}</h3>
- 
-      {{ item.link }}
-      <a href="/topic/{{topicID[5]}}">Bekijken</a>
-    </li>
-  {% endfor %}
-</ul>
+          {{ item.link }}
+          <a href="/topic/{{topicID[5]}}">Bekijken</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </article>
+</section>
 
 {% render 'partials/foot.liquid' %}

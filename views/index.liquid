@@ -3,21 +3,28 @@
 <section class="layout">
   <h1 class="container">Dashboard</h1>
 </section>
+<details>
+  <summary>Debug</summary>
+  <pre>{{ items | json: 4 }}</pre>
+</details>
 
 <section class="layout">
   <article class="container">
-    <h2>Games</h2>
+    <h2>Dashboard</h2>
     <ul>
-      {% for categorie in gameCategories %}
+      {% for item in items %}
+        {% assign catID = item.link | split: '/' %}
         <li>
-          <h3>{{categorie.title}}</h3>
-          <a href="/categorie/{{categorie.id}}">Bekijk statistieken</a>
+          <h3>{{ item.title }}</h3>
+          <p>{{item.topics}} topics</p>
+          <p>{{item.messages}} messages</p>
+          <a href="/categorie/{{catID[5]}}">Bekijk statistieken</a>
         </li>
       {% endfor %}
     </ul>
   </article>
 </section>
 
-{{gameCategories | json}}
+{{ gameCategories | json }}
 
 {% render 'partials/foot.liquid' %}

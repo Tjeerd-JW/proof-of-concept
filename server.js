@@ -17,79 +17,51 @@ app.set("port", process.env.PORT || 8000);
 
 // Start Express op, gebruik daarbij het zojuist ingestelde poortnummer op
 app.listen(app.get('port'), function () {
-    console.log(`Project draait via http://localhost:${app.get('port')}/\n\nGleep glorp hij staat aan`)
+  console.log(`Project draait via http://localhost:${app.get('port')}/\n\nGleep glorp hij staat aan`)
 })
 
 const baseURL = 'https://gathering.tweakers.net/rss/'
 
-function randomNumber() {
-  return Math.floor(Math.random() * 750000);
-}
+app.get('/', async (request, response) => {
 
-const gameCategories = [
-  {
-  id: 12,
-  title: 'Hardware en spielerij algemeen',
-  topics: randomNumber(),
-  reactions: randomNumber()
-},
-{
-  id: 105,
-  title: 'Actie, adventure en platform games',
-  topics: randomNumber(),
-  reactions: randomNumber()
-},
-{
-  id: 75,
-  title: 'racing',
-  topics: randomNumber(),
-  reactions: randomNumber()
-},
-{
-  id: 106,
-  title: 'Role-playing games',
-  topics: randomNumber(),
-  reactions: randomNumber()
-},
-{
-  id: 104,
-  title: 'Shooters',
-  topics: randomNumber(),
-  reactions: randomNumber()
-},
-{
-  id: 107,
-  title: 'Strategy games',
-  topics: randomNumber(),
-  reactions: randomNumber()
-},
-{
-  id: 108,
-  title: 'Sport en simulatie games',
-  topics: randomNumber(),
-  reactions: randomNumber()
-},
-{
-  id: 53,
-  title: 'Spielerij - problemen en vragen',
-  topics: randomNumber(),
-  reactions: randomNumber()
-}
-]
+  const rssResponse = await fetch(baseURL);
+  const responseXML = await rssResponse.text();
 
-app.get('/', async function (request, response) {
-    response.render('index.liquid', {
-      gameCategories: gameCategories
-    })
-})
+  const { feed } = parseFeed(responseXML);
+
+  const items = feed.items.map(item => {
+    const description = item.description ?? '';
+
+    return {
+      title: item.title,
+      link: item.link,//Gebruik regex om aantal topics/messages te vinden
+      topics: Number(description.match(/Topics:\s*(\d+)/)?.[1] ?? 0),
+      messages: Number(description.match(/Messages:\s*(\d+)/)?.[1] ?? 0),
+    };
+  });
+
+  items.sort(function (a, b) {
+    if (a.messages < b.messages) {
+      return 1;
+    } else if (a.messages > b.messages) {
+      return -1;
+    }
+    return 0;
+  })
+
+  response.render('index.liquid', { items });
+});
 
 app.get('/categorie/:id', async function (request, response) {
   const rssResponse = await fetch(`${baseURL}list_topics/${request.params.id}`)
   const responseXML = await rssResponse.text()
   const { format, feed } = parseFeed(responseXML)
 
-  response.render('category.liquid', {items: feed.items})
-  
+  response.render('category.liquid', {
+    items: feed.items,
+
+  })
+
 })
 
 app.get('/topic/:id', async function (request, response) {
@@ -97,8 +69,8 @@ app.get('/topic/:id', async function (request, response) {
   const responseXML = await rssResponse.text()
   const { format, feed } = parseFeed(responseXML)
 
-  response.render('topic.liquid', {items: feed.items})
-  
+  response.render('topic.liquid', { items: feed.items })
+
 })
 
 app.get('/profile/:name', async function (request, response) {
@@ -108,14 +80,14 @@ app.get('/profile/:name', async function (request, response) {
 
   const messagesResponse = await fetch(`${baseURL}find/poster/${request.params.name}/messages`)
   const messagesXML = await messagesResponse.text()
-   const { feed: messagesFeed } = parseFeed(messagesXML)
+  const { feed: messagesFeed } = parseFeed(messagesXML)
 
 
   response.render('profile.liquid', {
     topics: topicsFeed.items,
     messages: messagesFeed.items
   })
-  
+
 })
 
 
