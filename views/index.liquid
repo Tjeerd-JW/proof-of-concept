@@ -1,28 +1,23 @@
 {% render 'partials/head.liquid', title: 'Dashboard' %}
 
 <section class="layout">
-  <article class="container">
-    <h1>Dashboard</h1>
-  </article>
+  <h1 class="container">Dashboard</h1>
 </section>
-<details>
-  <summary>Debug</summary>
-  <pre>{{ items | json: 4 }}</pre>
-</details>
 
-{% for item in items %}
-  <article>
-    <h2>{{ item.title }}</h2>
-    <p>geupload op {{ item.pubDate }}</p>
-    <p>{{ item.description }}</p>
+<section class="layout">
+  <article class="container">
+    <h2>Games</h2>
     <ul>
-      {% for categorie in categories %}
+      {% for categorie in gameCategories %}
         <li>
-          {{ categorie.name }}
+          <h3>{{categorie.title}}</h3>
+          <a href="/categorie/{{categorie.id}}">Bekijk statistieken</a>
         </li>
       {% endfor %}
     </ul>
   </article>
-{% endfor %}
+</section>
+
+{{gameCategories | json}}
 
 {% render 'partials/foot.liquid' %}
