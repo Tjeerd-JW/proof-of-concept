@@ -84,11 +84,37 @@ app.get('/', async function (request, response) {
 })
 
 app.get('/categorie/:id', async function (request, response) {
-const rssResponse = await fetch(`${baseURL}list_topics/${request.params.id}`)
+  const rssResponse = await fetch(`${baseURL}list_topics/${request.params.id}`)
   const responseXML = await rssResponse.text()
   const { format, feed } = parseFeed(responseXML)
 
   response.render('category.liquid', {items: feed.items})
+  
+})
+
+app.get('/topic/:id', async function (request, response) {
+  const rssResponse = await fetch(`${baseURL}list_messages/${request.params.id}`)
+  const responseXML = await rssResponse.text()
+  const { format, feed } = parseFeed(responseXML)
+
+  response.render('topic.liquid', {items: feed.items})
+  
+})
+
+app.get('/profile/:name', async function (request, response) {
+  const topicsResponse = await fetch(`${baseURL}find/poster/${request.params.name}/topics`)
+  const topicsXML = await topicsResponse.text()
+  const { feed: topicsFeed } = parseFeed(topicsXML)
+
+  const messagesResponse = await fetch(`${baseURL}find/poster/${request.params.name}/messages`)
+  const messagesXML = await messagesResponse.text()
+   const { feed: messagesFeed } = parseFeed(messagesXML)
+
+
+  response.render('profile.liquid', {
+    topics: topicsFeed.items,
+    messages: messagesFeed.items
+  })
   
 })
 

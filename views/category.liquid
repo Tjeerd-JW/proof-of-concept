@@ -1,5 +1,19 @@
 {% render 'partials/head.liquid', title: 'Categorie' %}
 
-{{ items | json }}
+{% comment %} {{ items | json }} {% endcomment %}
+
+<ul>
+  {% for item in items %}
+    {% assign topicID = item.comments | split: '/' %}
+
+
+    <li>
+      <h3>{{ item.title }}</h3>
+ 
+      {{ item.link }}
+      <a href="/topic/{{topicID[5]}}">Bekijken</a>
+    </li>
+  {% endfor %}
+</ul>
 
 {% render 'partials/foot.liquid' %}

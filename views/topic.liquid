@@ -1,5 +1,19 @@
 {% render 'partials/head.liquid', title: 'Topic' %}
 
+<details>
+  <summary>Debug</summary>
+  <pre>{{ items | json: 4 }}</pre>
+</details>
+
+<ul>
+  {% for item in items %}
+    <li>
+      <h3>{{ item.title }}</h3>
+      <p>{{ item.description }}</p>
+      <a href="/profile/{{item.title}}">bekijk profiel</a>
+    </li>
+  {% endfor %}
+</ul>
 
 
 {% render 'partials/foot.liquid' %}

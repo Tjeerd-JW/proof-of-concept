@@ -1,0 +1,39 @@
+{% render 'partials/head.liquid', title: 'Topic' %}
+
+<details>
+  <summary>Debug topics</summary>
+  <pre>{{ topics | json: 4 }}</pre>
+</details>
+
+<details>
+  <summary>Debug messages</summary>
+  <pre>{{ topics | json: 4 }}</pre>
+</details>
+
+<details>
+    <summary><h2>topics</h2> </summary>
+    <ul>
+  {% for topic in topics %}
+    <li>
+      <h3>{{ topic.title }}</h3>
+      <p>{{ topic.description }}</p>
+    </li>
+  {% endfor %}
+</ul>
+</details>
+
+
+<details>
+    <summary><h2>Messages</h2> </summary>
+    <ul>
+  {% for message in messages %}
+    <li>
+      <h3>{{ message.title }}</h3>
+      <p>{{ message.description }}</p>
+    </li>
+  {% endfor %}
+</ul>
+</details>
+
+
+{% render 'partials/foot.liquid' %}
