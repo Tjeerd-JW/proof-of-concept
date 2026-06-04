@@ -14,6 +14,23 @@
 <p>{{ totalMessages }}</p>
 
 <section class="layout">
+  <div class="container stat-blocks">
+    <article>
+      <h2>Topics</h2>
+      <p>{{ totalTopics }}</p>
+    </article>
+    <article>
+      <h2>Berichten</h2>
+      <p>{{ totalMessages }}</p>
+    </article>
+    <article>
+      <h2>Categorieën </h2>
+      <p>{{ items.length }}</p>
+    </article>
+  </div>
+</section>
+
+<section class="layout">
   <article class="container">
     <table class="container dashboard-table">
       <caption>
@@ -42,22 +59,24 @@
   </article>
 </section>
 
-{% comment %} <section class="layout">
-  <article class="container">
-    <h2>Dashboard</h2>
-    <ul>
-      {% for item in items %}
-        {% assign catID = item.link | split: '/' %}
-        <li>
-          <h3>{{ item.title }}</h3>
-          <p>{{ item.topics }} topics</p>
-          <p>{{ item.messages }} messages</p>
-          <a href="/categorie/{{catID[5]}}">Bekijk statistieken</a>
-        </li>
-      {% endfor %}
-    </ul>
-  </article>
-</section> {% endcomment %}
+{% comment %}
+  <section class="layout">
+    <article class="container">
+      <h2>Dashboard</h2>
+      <ul>
+        {% for item in items %}
+          {% assign catID = item.link | split: '/' %}
+          <li>
+            <h3>{{ item.title }}</h3>
+            <p>{{ item.topics }} topics</p>
+            <p>{{ item.messages }} messages</p>
+            <a href="/categorie/{{catID[5]}}">Bekijk statistieken</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </article>
+  </section>
+{% endcomment %}
 
 {{ gameCategories | json }}
 
