@@ -3,15 +3,6 @@
 <section class="layout">
   <h1 class="container">Dashboard</h1>
 </section>
-<details>
-  <summary>Debug</summary>
-  <pre>{{ items | json: 4 }}</pre>
-</details>
-
-<p>totals topics</p>
-<p>{{ totalTopics }}</p>
-<p>total messages</p>
-<p>{{ totalMessages }}</p>
 
 <section class="layout">
   <div class="container stat-blocks">
@@ -24,11 +15,14 @@
       <p>{{ totalMessages }}</p>
     </article>
     <article>
-      <h2>Categorieën </h2>
+      <h2>Categorieën</h2>
       <p>{{ items.length }}</p>
     </article>
   </div>
 </section>
+{{ averagePerTopic }}
+
+{% comment %} {% render 'partials/chart.liquid', chartData: items %} {% endcomment %}
 
 <section class="layout">
   <article class="container">
@@ -41,6 +35,7 @@
           <th><h3>Categorie</h3></th>
           <th>topics</th>
           <th>Berichten</th>
+          <th>Berichten per topic</th>
         </tr>
       </thead>
       <tbody>
@@ -52,6 +47,7 @@
             </th>
             <td>{{ item.topics }}</td>
             <td>{{ item.messages }}</td>
+            <td>{{ item.messagesPerTopic }}</td>
           </tr>
         {% endfor %}
       </tbody>

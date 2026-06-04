@@ -1,0 +1,20 @@
+<script src="/js/chart.js" defer></script>
+
+<section class="layout">
+  <article class="container">
+    <div class="chart">
+        <div class="extra-info">
+            <h3>Categorie</h3>
+            <p>messages</p>
+            <p>topics</p>
+            <p>messages per topic</p>
+            <a href="#">Bekijken</a>
+        </div>
+    </div>
+  </article>
+</section>
+
+<script>
+  // Data doorgeven aan javascript
+    window.chartData = {{ chartData | json }};
+</script>

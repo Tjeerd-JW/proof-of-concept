@@ -31,19 +31,23 @@ app.get('/', async (request, response) => {
 
   const items = feed.items.map(item => {
     const description = item.description ?? '';
+    //Gebruik regex om aantal topics/messages te vinden
+    const topics = Number(description.match(/Topics:\s*(\d+)/)?.[1] ?? 0);
+    const messages = Number(description.match(/Messages:\s*(\d+)/)?.[1] ?? 0);
 
     return {
       title: item.title,
-      link: item.link,//Gebruik regex om aantal topics/messages te vinden
-      topics: Number(description.match(/Topics:\s*(\d+)/)?.[1] ?? 0),
-      messages: Number(description.match(/Messages:\s*(\d+)/)?.[1] ?? 0),
+      link: item.link,
+      topics,
+      messages,
+      messagesPerTopic: topics > 0 ? +(messages / topics).toFixed(1): 0
     };
   });
 
   items.sort(function (a, b) {
-    if (a.messages < b.messages) {
+    if (a.messagesPerTopic < b.messagesPerTopic) {
       return 1;
-    } else if (a.messages > b.messages) {
+    } else if (a.messagesPerTopic > b.messagesPerTopic) {
       return -1;
     }
     return 0;
@@ -52,14 +56,18 @@ app.get('/', async (request, response) => {
 
   const totalTopics = items.reduce((sum, c) => sum + c.topics, 0);
   const totalMessages = items.reduce((sum, c) => sum + c.messages, 0);
+  const averagePerTopic = totalMessages / totalTopics
 
-  console.log(totalTopics);  
-  console.log(totalMessages);  
+  const formattedTopics = totalTopics.toLocaleString('nl-NL');
+  const formattedMessages = totalMessages.toLocaleString('nl-NL');
 
-  response.render('index.liquid', { 
+  console.log(formattedMessages);
+
+  response.render('index.liquid', {
     items: items,
-    totalTopics:  totalTopics,
-    totalMessages: totalMessages,
+    totalTopics: formattedTopics,
+    totalMessages: formattedMessages,
+    averagePerTopic: averagePerTopic
   });
 });
 
