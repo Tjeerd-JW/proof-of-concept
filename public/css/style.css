@@ -1,4 +1,50 @@
-.header{
+.header {
     padding: var(--space-md) 0;
     background-color: var(--brand);
+
+}
+
+.dashboard-table {
+    width: 100%;
+    border: var(--space-2xs) solid var(--color-grey-45);
+
+    th,
+    td {
+        border: var(--space-3xs) solid var(--color-grey-65);
+    }
+
+    thead {
+        tr {
+            th {
+                text-align: start;
+                width: min-content;
+
+                &:first-of-type {
+                    width: 25%;
+                }
+            }
+        }
+    }
+
+    tbody {
+
+        tr {
+            th {
+                text-align: start;
+
+                a {
+                    color: var(--color-grey-5);
+                    transition: .2s ease;
+                    padding: var(--space-2xs);
+
+                    &:hover {
+                        color: var(--accent);
+                        margin-left: var(--space-2xs);
+                    }
+                }
+            }
+
+            td {}
+        }
+    }
 }

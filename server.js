@@ -49,7 +49,18 @@ app.get('/', async (request, response) => {
     return 0;
   })
 
-  response.render('index.liquid', { items });
+
+  const totalTopics = items.reduce((sum, c) => sum + c.topics, 0);
+  const totalMessages = items.reduce((sum, c) => sum + c.messages, 0);
+
+  console.log(totalTopics);  
+  console.log(totalMessages);  
+
+  response.render('index.liquid', { 
+    items: items,
+    totalTopics:  totalTopics,
+    totalMessages: totalMessages,
+  });
 });
 
 app.get('/categorie/:id', async function (request, response) {
@@ -89,46 +100,3 @@ app.get('/profile/:name', async function (request, response) {
   })
 
 })
-
-
-// app.get('/', async function (request, response) {
-
-//   const tweakersResponse = await fetch('https://gathering.tweakers.net/rss/list_topics/105')
-//   const tweakersResponseXML = await tweakersResponse.text()
-
-//   const { format, feed } = parseFeed(tweakersResponseXML)
-//   // console.log(feed) // Om te debuggen
-
-//   response.render('index.liquid', {items: feed.items})
-// })
-
-// app.get('/', async function (request, response) {
-
-//   const tweakersResponse = await fetch('https://gathering.tweakers.net/rss/list_topics/105')
-//   const tweakersResponseXML = await tweakersResponse.text()
-
-//   const { format, feed } = parseFeed(tweakersResponseXML)
- 
-
-//   const items = []
-//   for (const item of feed.items) {
-//     items.push({
-//       title: item.title,
-//       link: item.link,
-//       replies: Number(item.description.substring(9, item.description.indexOf('\n')))
-//     })
-//   }
-
-//   items.sort(function(a, b) {
-//    if (a.replies < b.replies) {
-//     return 1;
-//    } else if (a.replies > b.replies) {
-//     return -1;
-//    }
-//    return 0;
-//   })
-
-//   console.log(items)
-
-//   response.render('index.liquid', {items: items})
-// })
