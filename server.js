@@ -1,8 +1,55 @@
 import express from "express";
 import { Liquid } from "liquidjs";
 import { parseFeed } from 'feedsmith'
+import { JSDOM } from 'jsdom'
 
 const app = express();
+
+
+const scrapeAndUpdateTweakers = async function () {
+  const tweakersActiveTopicsResponse = await fetch('https://gathering.tweakers.net/rss/list_activetopics')
+  const tweakersActiveTopicsResponseXML = await tweakersActiveTopicsResponse.text()
+  const { feed: tweakersActiveTopicsFeed } = parseFeed(tweakersActiveTopicsResponseXML)
+  const tweakersLastPoster = tweakersActiveTopicsFeed.items[0].description.substring(13 + tweakersActiveTopicsFeed.items[0].description.indexOf('Last poster: '), tweakersActiveTopicsFeed.items[0].description.indexOf(' at '))
+  const directusUserResponse = await fetch('https://fdnd-agency.directus.app/items/tweakers_users?' + new URLSearchParams({ 'filter[username]': tweakersLastPoster }))
+  const directusUserResponseJSON = await directusUserResponse.json()
+  const tweakersLastPosterProfileResponse = await fetch('https://tweakers.net/gallery/' + tweakersLastPoster)
+  const tweakersLastPosterProfileResponseHTML = await tweakersLastPosterProfileResponse.text()
+  const { document: tweakersLastPosterProfileResponseDOM } = (new JSDOM(tweakersLastPosterProfileResponseHTML)).window
+  const tweakersLastPosterProfileLink = tweakersLastPosterProfileResponseDOM.querySelector('a[href^="https://gathering.tweakers.net/forum/find/poster/"]')
+  const tweakersLastPosterPostCount = tweakersLastPosterProfileLink.textContent.replace(/\./g, '')
+  if (directusUserResponseJSON.data.length == 1) {
+    await fetch('https://fdnd-agency.directus.app/items/tweakers_users', {
+      method: 'PATCH',
+      body: JSON.stringify({
+        number_of_posts: tweakersLastPosterPostCount
+      }),
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8'
+      }
+    })
+  } else {
+    const tweakersLastPosterProfileRegistered = tweakersLastPosterProfileResponseDOM.querySelector('.registered').textContent
+    const tweakersLastPosterProfileRegisteredDateParts = tweakersLastPosterProfileRegistered.substring(18, tweakersLastPosterProfileRegistered.indexOf(', laatste')).split(' ')
+    const months = { januari: '01', februari: '02', maart: '03', april: '04', mei: '05', juni: '06', juli: '07', augustus: '08', september: '09', oktober: 10, november: 11, december: 12 }
+    const tweakersLastPosterProfileRegisteredDate = tweakersLastPosterProfileRegisteredDateParts[2] + '-' + months[tweakersLastPosterProfileRegisteredDateParts[1]] + '-' + tweakersLastPosterProfileRegisteredDateParts[0].padStart(2, '0')
+    await fetch('https://fdnd-agency.directus.app/items/tweakers_users', {
+      method: 'POST',
+      body: JSON.stringify({
+        member_since: tweakersLastPosterProfileRegisteredDate,
+        username: tweakersLastPoster,
+        forum_id: tweakersLastPosterProfileLink.getAttribute('href').substring(13 + tweakersLastPosterProfileLink.getAttribute('href').indexOf('/find/poster/')),
+        number_of_posts: tweakersLastPosterPostCount
+      }),
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8'
+      }
+    })
+  }
+}
+
+scrapeAndUpdateTweakers()
+
 
 app.use(express.urlencoded({ extended: true }))
 
@@ -23,7 +70,6 @@ app.listen(app.get('port'), function () {
 const baseURL = 'https://gathering.tweakers.net/rss/'
 
 app.get('/', async (request, response) => {
-
   const rssResponse = await fetch(baseURL);
   const responseXML = await rssResponse.text();
 
@@ -40,7 +86,7 @@ app.get('/', async (request, response) => {
       link: item.link,
       topics,
       messages,
-      messagesPerTopic: topics > 0 ? +(messages / topics).toFixed(1): 0
+      messagesPerTopic: topics > 0 ? +(messages / topics).toFixed(1) : 0
     };
   });
 
