@@ -115,7 +115,7 @@
         --x: 0;
         --y: 0;
         transform: translateY(var(--y-nav)) translateX(var(--x-nav));
-
+        display: none;
     }
 
     .show {

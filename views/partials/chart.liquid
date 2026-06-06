@@ -1,29 +1,30 @@
 <script src="/js/chart.js" defer></script>
 
 {% comment %} Vind de maximale waardes in de arrays {% endcomment %}
-{% assign maxTopics = 0 %}
-{% assign maxMessages = 0 %}
+{% assign maxX = 0 %}
+{% assign maxY = 0 %}
 
 {% for item in chartData %}
-  {% if item.topics > maxTopics %}
-    {% assign maxTopics = item.topics %}
+  {% if item[xValue] > maxX %}
+    {% assign maxX = item[xValue] %}
   {% endif %}
-  {% if item.messages > maxMessages %}
-    {% assign maxMessages = item.messages %}
+  {% if item[yValue] > maxY %}
+    {% assign maxY = item[yValue] %}
   {% endif %}
 {% endfor %}
 
-<h1>max topics {{ maxTopics }} & max messages {{ maxMessages }}</h1>
+<h1>max topics {{ maxX }} & max messages {{ maxY }}</h1>
 <section class="layout">
   <article class="container">
+    <p>X: {{ xValue }}</p>
+    <p>Y: {{ yValue }}</p>
     <div class="chart">
       {% for item in chartData %}
         {% assign catID = item.link | split: '/' %}
         {% assign x = item[xValue] %}
         {% assign y = item[yValue] %}
-
-        {% assign xPosition = x | divided_by: maxTopics | times: 98 %}
-        {% assign yPosition = y | divided_by: maxMessages | times: 98 %}
+        {% assign xPosition = x | divided_by: maxX | times: 98 %}
+        {% assign yPosition = y | divided_by: maxY | times: 98 %}
 
         <a
           href="/categorie/{{catID[5]}}"
@@ -43,8 +44,3 @@
     </div>
   </article>
 </section>
-
-<script>
-  // Data doorgeven aan javascript
-    window.chartData = {{ chartData | json }};
-</script>
