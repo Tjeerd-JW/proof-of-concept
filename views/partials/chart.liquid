@@ -20,18 +20,21 @@
     <p>Y: {{ yValue }}</p>
     <div class="chart">
       {% for item in chartData %}
-        {% assign catID = item.link | split: '/' %}
+        {% assign splitURL = item.link | split: '/' %}
+        {% assign catID = splitURL[5] %}
         {% assign x = item[xValue] %}
         {% assign y = item[yValue] %}
         {% assign xPosition = x | divided_by: maxX | times: 98 %}
         {% assign yPosition = y | divided_by: maxY | times: 98 %}
 
         <a
-          href="/categorie/{{catID[5]}}"
+          href="/categorie/{{catID}}"
           title="{{item.title}}"
           class="point"
-          style="left:{{xPosition}}%; bottom:{{yPosition}}%;"
+          style="left:{{xPosition}}%; bottom:{{yPosition}}%; --anchor-name:anchor-{{catID}};"
+          interestfor="{{catID}}"
         ></a>
+        <p class="chart-popover" id="{{catID}}" style="--anchor-name:anchor-{{catID}};" popover>Een preview voor {{ item.title }}</p>
       {% endfor %}
 
       <div class="extra-info">

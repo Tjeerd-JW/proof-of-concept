@@ -98,10 +98,26 @@
         border-radius: 50%;
         background-color: var(--brand);
         transition: .2s ease;
+        /* anchor-name: var(--anchor-name); */
+        interest-delay: .2s 2s;
 
         &:hover {
             scale: 1.5;
             background: var(--accent);
+        }
+    }
+
+    .chart-popover {
+        /* position-anchor: var(--anchor-name); */
+        position-area: right;
+        position-try-fallbacks: left, block-start;
+        inset: auto;
+        transition: ease-in-out .3s;
+        transform: translateX(-100%);
+        min-width: 100px;
+
+        &:popover-open {
+            transform: translateX(0);
         }
     }
 
