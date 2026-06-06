@@ -20,9 +20,8 @@
     </article>
   </div>
 </section>
-{{ averagePerTopic }}
 
-{% render 'partials/chart.liquid', chartData: items %}
+{% render 'partials/chart.liquid', chartData: items, xValue: 'topics', yValue: 'messages' %}
 
 <section class="layout">
   <article class="container">

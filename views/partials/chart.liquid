@@ -1,15 +1,45 @@
 <script src="/js/chart.js" defer></script>
 
+{% comment %} Vind de maximale waardes in de arrays {% endcomment %}
+{% assign maxTopics = 0 %}
+{% assign maxMessages = 0 %}
+
+{% for item in chartData %}
+  {% if item.topics > maxTopics %}
+    {% assign maxTopics = item.topics %}
+  {% endif %}
+  {% if item.messages > maxMessages %}
+    {% assign maxMessages = item.messages %}
+  {% endif %}
+{% endfor %}
+
+<h1>max topics {{ maxTopics }} & max messages {{ maxMessages }}</h1>
 <section class="layout">
   <article class="container">
     <div class="chart">
-        <div class="extra-info">
-            <h3>Categorie</h3>
-            <p>messages</p>
-            <p>topics</p>
-            <p>messages per topic</p>
-            <a href="#">Bekijken</a>
-        </div>
+      {% for item in chartData %}
+        {% assign catID = item.link | split: '/' %}
+        {% assign x = item[xValue] %}
+        {% assign y = item[yValue] %}
+
+        {% assign xPosition = x | divided_by: maxTopics | times: 98 %}
+        {% assign yPosition = y | divided_by: maxMessages | times: 98 %}
+
+        <a
+          href="/categorie/{{catID[5]}}"
+          title="{{item.title}}"
+          class="point"
+          style="left:{{xPosition}}%; bottom:{{yPosition}}%;"
+        ></a>
+      {% endfor %}
+
+      <div class="extra-info">
+        <h3>Categorie</h3>
+        <p>messages</p>
+        <p>topics</p>
+        <p>messages per topic</p>
+        <a href="#">Bekijken</a>
+      </div>
     </div>
   </article>
 </section>
