@@ -2,30 +2,51 @@ const chart = document.querySelector(".chart");
 const extraInfo = document.querySelector(".extra-info")
 let allDots = document.querySelectorAll('.point')
 
-const supported = Object.hasOwn(
+const supportsInterest = Object.hasOwn(
     HTMLButtonElement.prototype,
     "interestForElement",
 );
 
-if (!supported) {
+const supportsPopOver = Object.hasOwn(
+    HTMLElement.prototype,
+    "popover"
+);
+
+
+if (!supportsInterest) {
     console.log('geen interest invokers :(')
+
+    allDots.forEach(dot => {
+        dot.addEventListener("mouseenter", showHandler)
+        if (!supportsPopOver) {
+            chart.addEventListener("click", hideHandler)
+
+        }
+    });
+
 }
-if (supported) {
+
+if (supportsInterest) {
     console.log(' interest invokers YIPPIEEEE :)')
 
 }
 
-// allDots.forEach(dot => {
-//     dot.addEventListener("mouseenter", showHandler)
-//     dot.addEventListener("mouseleave", leaveHandler)
-// });
+function showHandler(event) {
+    const value = event.target.getAttribute('interestfor');
+    const popover = document.getElementById(value)
 
-// function showHandler(event) {
-//     console.log('hovered', event)
-//     extraInfo.classList.add('show')
-// }
+    if (!supportsPopOver) {
+        hideHandler()
+        popover.classList.add("show")
+    }
+    else {
+        popover.showPopover()
+    }
+}
 
-// function leaveHandler(event) {
-//     extraInfo.classList.remove('show')
-
-// }
+function hideHandler() {
+    const popover = document.querySelector(".chart .show")
+    if (popover) {
+        popover.classList.remove("show")
+    }
+}

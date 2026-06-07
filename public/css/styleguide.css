@@ -129,6 +129,8 @@ html {
   --logo: #D9E54D;
   --brand: #A11236;
   --accent: #004D99;
+  --button-primary: #0066cc;
+  --button-secondary: #004d99;
   --color-white: #FFFFFF;
   --color-grey-95: #F1F2F4;
   --color-grey-85: #D5D9DD;
@@ -184,6 +186,23 @@ h6 {
   font-family: var(--font-heading);
   font-weight: var(--font-weight-heading);
   color: (var(--color-grey-15));
+}
+
+.primary-button {
+  align-items: center;
+  text-wrap: nowrap;
+  width: fit-content;
+  transition: .3s ease;
+  background-color: var(--button-primary);
+  color: var(--color-white);
+  text-decoration: none;
+  padding: var(--space-xs);
+
+  &:hover {
+    cursor: pointer;
+    background-color: var(--button-secondary);
+    margin-left: var(--space-2xs);
+  }
 }
 
 /* container */

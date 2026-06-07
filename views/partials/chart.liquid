@@ -37,12 +37,20 @@
           href="/categorie/{{catID}}"
           title="{{item.title}}"
           class="point"
-          style="left:{{xPosition}}%; bottom:{{yPosition}}%; --anchor-name:anchor-{{catID}};"
+          style="left:{{xPosition}}%; bottom:{{yPosition}}%; --anchor-name:--anchor-{{catID}};"
           interestfor="{{catID}}"
         ></a>
-        <p class="chart-popover" id="{{catID}}" style="--anchor-name:anchor-{{catID}};" popover>
-          Een preview voor {{ item.title }}
-        </p>
+        <div class="chart-popover" id="{{catID}}" style="--anchor-name:--anchor-{{catID}};" popover>
+          <h3>
+            {{ item.title }}
+          </h3>
+          <ul>
+            <li>Topics: <span>{{ item.topics }}</span></li>
+            <li>Berichten: <span>{{ item.messages }}</span></li>
+            <li>Berichten per topic: <span>{{ item.messagesPerTopic }}</span></li>
+          </ul>
+          <a class="primary-button" href="/categorie/{{catID}}">Bekijken</a>
+        </div>
       {% endfor %}
 
       <ol class="x-axis">

@@ -166,8 +166,8 @@
         border-radius: 50%;
         background-color: var(--brand);
         transition: .2s ease;
-        /* anchor-name: var(--anchor-name); */
-        interest-delay: .2s 2s;
+        anchor-name: var(--anchor-name);
+        interest-delay: .2s 3s;
         z-index: 10;
 
         &:hover {
@@ -177,33 +177,43 @@
     }
 
     .chart-popover {
-        /* position-anchor: var(--anchor-name); */
+        position-anchor: var(--anchor-name);
         position-area: right;
         position-try-fallbacks: left, block-end;
         inset: auto;
         transition: ease-in-out .3s;
         transform: translateX(-100%);
-        min-width: 250px;
+        padding: var(--space-xs);
+        border-radius: var(--space-xs);
+        border: var(--space-3xs) solid var(--color-grey-5);
+        display: none;
 
         &:popover-open {
             transform: translateX(0);
+            display: grid;
+
+        }
+
+        h3 {
+            text-wrap: nowrap;
+        }
+
+        ul {
+            li {
+                span {
+                    font-weight: bold;
+                }
+            }
         }
     }
 
-    .extra-info {
-        position: absolute;
-        /* background-color: var(--color-grey-45); */
-        background-color: var(--brand);
-        padding: var(--space-md);
-        transition: linear .2s;
-        opacity: 0;
-        --x: 0;
-        --y: 0;
-        transform: translateY(var(--y-nav)) translateX(var(--x-nav));
-        display: none;
-    }
-
     .show {
+        transform: translateX(0);
+        display: grid;
         opacity: 1;
+        background-color: var(--color-white);
+        height: fit-content;
+        width: max-content;
+        z-index: 11;
     }
 }
