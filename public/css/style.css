@@ -87,9 +87,77 @@
 .chart {
     position: relative;
     width: 100%;
-    height: 400px;
+    height: 600px;
     border: var(--space-3xs) solid var(--color-grey-65);
     margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+
+
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+            repeating-linear-gradient(to right,
+                transparent 0,
+                transparent calc(11.111% - 1px),
+                var(--color-grey-75) calc(11.111% - 1px),
+                var(--color-grey-75) 11.111%),
+            repeating-linear-gradient(to bottom,
+                transparent 0,
+                transparent calc(11.111% - 1px),
+                var(--color-grey-75) calc(11.111% - 1px),
+                var(--color-grey-75) 11.11%);
+    }
+
+    .chart-axis {
+        position: absolute;
+    }
+
+    .x-value {
+        bottom: -35px;
+        grid-column: 1;
+    }
+
+    .y-value {
+        grid-column: 1;
+        bottom: 25px;
+        left: -48px;
+        rotate: 270deg;
+        anchor-name: --chart-anchor;
+    }
+
+    .x-axis {
+        position: absolute;
+        bottom: -20px;
+        width: 100%;
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-between;
+
+        li {
+            width: 15px;
+            rotate: 70deg;
+
+        }
+    }
+
+    .y-axis {
+        position-anchor: --chart-anchor;
+        position-area: span-all;
+        position-try-fallbacks: right;
+        position: absolute;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        li {
+            rotate: -40deg;
+        }
+    }
+
 
     .point {
         position: absolute;
@@ -100,6 +168,7 @@
         transition: .2s ease;
         /* anchor-name: var(--anchor-name); */
         interest-delay: .2s 2s;
+        z-index: 10;
 
         &:hover {
             scale: 1.5;
@@ -110,11 +179,11 @@
     .chart-popover {
         /* position-anchor: var(--anchor-name); */
         position-area: right;
-        position-try-fallbacks: left, block-start;
+        position-try-fallbacks: left, block-end;
         inset: auto;
         transition: ease-in-out .3s;
         transform: translateX(-100%);
-        min-width: 100px;
+        min-width: 250px;
 
         &:popover-open {
             transform: translateX(0);

@@ -48,7 +48,7 @@ const scrapeAndUpdateTweakers = async function () {
   }
 }
 
-scrapeAndUpdateTweakers()
+// scrapeAndUpdateTweakers()
 
 
 app.use(express.urlencoded({ extended: true }))

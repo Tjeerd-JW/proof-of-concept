@@ -13,12 +13,18 @@
   {% endif %}
 {% endfor %}
 
+{% for i in (1..9) %}
+  {% assign xAxis = maxX | divided_by: i | floor %}
+  <p>{{ xAxis }} - {{ i }}</p>
+{% endfor %}
+
 <h1>max topics {{ maxX }} & max messages {{ maxY }}</h1>
 <section class="layout">
   <article class="container">
-    <p>X: {{ xValue }}</p>
-    <p>Y: {{ yValue }}</p>
     <div class="chart">
+      <p class="x-value chart-axis">{{ xValue }}</p>
+      <p class="y-value chart-axis">{{ yValue }}</p>
+
       {% for item in chartData %}
         {% assign splitURL = item.link | split: '/' %}
         {% assign catID = splitURL[5] %}
@@ -34,16 +40,26 @@
           style="left:{{xPosition}}%; bottom:{{yPosition}}%; --anchor-name:anchor-{{catID}};"
           interestfor="{{catID}}"
         ></a>
-        <p class="chart-popover" id="{{catID}}" style="--anchor-name:anchor-{{catID}};" popover>Een preview voor {{ item.title }}</p>
+        <p class="chart-popover" id="{{catID}}" style="--anchor-name:anchor-{{catID}};" popover>
+          Een preview voor {{ item.title }}
+        </p>
       {% endfor %}
 
-      <div class="extra-info">
-        <h3>Categorie</h3>
-        <p>messages</p>
-        <p>topics</p>
-        <p>messages per topic</p>
-        <a href="#">Bekijken</a>
-      </div>
+      <ol class="x-axis">
+        {% for i in (1..9) %}
+          {% assign xAxis = maxX | divided_by: i | floor %}
+          <li>{{ xAxis }}</li>
+        {% endfor %}
+        <li>0</li>
+      </ol>
+
+      <ol class="y-axis">
+        {% for i in (1..9) %}
+          {% assign yAxis = maxY | divided_by: i | floor %}
+          <li>{{ yAxis }}</li>
+        {% endfor %}
+        <li>0</li>
+      </ol>
     </div>
   </article>
 </section>
