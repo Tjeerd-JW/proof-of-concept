@@ -18,6 +18,8 @@ if (!supportsInterest) {
 
     allDots.forEach(dot => {
         dot.addEventListener("mouseenter", showHandler)
+        dot.addEventListener("focus", showHandler)
+
         if (!supportsPopOver) {
             chart.addEventListener("click", hideHandler)
 

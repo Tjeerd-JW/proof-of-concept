@@ -13,12 +13,6 @@
   {% endif %}
 {% endfor %}
 
-{% for i in (1..9) %}
-  {% assign xAxis = maxX | divided_by: i | floor %}
-  <p>{{ xAxis }} - {{ i }}</p>
-{% endfor %}
-
-<h1>max topics {{ maxX }} & max messages {{ maxY }}</h1>
 <section class="layout">
   <article class="container">
     <div class="chart">
@@ -58,7 +52,7 @@
           {% assign xAxis = maxX | divided_by: i | floor %}
           <li>{{ xAxis }}</li>
         {% endfor %}
-        <li>0</li>
+        <li></li>
       </ol>
 
       <ol class="y-axis">
@@ -66,7 +60,7 @@
           {% assign yAxis = maxY | divided_by: i | floor %}
           <li>{{ yAxis }}</li>
         {% endfor %}
-        <li>0</li>
+        <li></li>
       </ol>
     </div>
   </article>

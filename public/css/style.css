@@ -101,14 +101,14 @@
         background:
             repeating-linear-gradient(to right,
                 transparent 0,
-                transparent calc(11.111% - 1px),
-                var(--color-grey-75) calc(11.111% - 1px),
-                var(--color-grey-75) 11.111%),
+                transparent calc(11.1111% - 1px),
+                var(--color-grey-75) calc(11.1111% - 1px),
+                var(--color-grey-75) 11.1111%),
             repeating-linear-gradient(to bottom,
                 transparent 0,
-                transparent calc(11.111% - 1px),
-                var(--color-grey-75) calc(11.111% - 1px),
-                var(--color-grey-75) 11.11%);
+                transparent calc(11.1111% - 1px),
+                var(--color-grey-75) calc(11.1111% - 1px),
+                var(--color-grey-75) 11.1111%);
     }
 
     .chart-axis {
@@ -155,6 +155,7 @@
 
         li {
             rotate: -40deg;
+            width: 15px;
         }
     }
 
