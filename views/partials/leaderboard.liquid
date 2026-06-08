@@ -1,0 +1,16 @@
+<section class="layout user-leaderboard">
+  <article class="container">
+    <h2>Users ranked by {{ rankedBy }}</h2>
+    <ol>
+      {% for user in users %}
+        <li>
+          <h2>{{ user.username }}</h2>
+          <img src="https://tweakers.net/identicon/{{user.forum_id}}" alt="">
+          <p>{{ user.member_since }}</p>
+          <p>{{ user.number_of_posts }}</p>
+          <a href="/profile/{{ user.username }}"> Details</a>
+        </li>
+      {% endfor %}
+    </ol>
+  </article>
+</section>

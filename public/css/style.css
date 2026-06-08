@@ -116,14 +116,14 @@
     }
 
     .x-value {
-        bottom: -35px;
+        bottom: -25px;
         grid-column: 1;
     }
 
     .y-value {
         grid-column: 1;
         bottom: 25px;
-        left: -48px;
+        left: -30px;
         rotate: 270deg;
         anchor-name: --chart-anchor;
     }
@@ -145,7 +145,7 @@
 
     .y-axis {
         position-anchor: --chart-anchor;
-        position-area: span-all;
+        position-area: left;
         position-try-fallbacks: right;
         position: absolute;
         height: 100%;
@@ -154,7 +154,6 @@
         justify-content: space-between;
 
         li {
-            rotate: -40deg;
             width: 15px;
         }
     }
@@ -216,5 +215,18 @@
         height: fit-content;
         width: max-content;
         z-index: 11;
+    }
+}
+
+.user-leaderboard {
+    article {
+        ol {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+
+            li {
+                display: grid;
+            }
+        }
     }
 }

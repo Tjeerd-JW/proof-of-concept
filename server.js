@@ -2,9 +2,9 @@ import express from "express";
 import { Liquid } from "liquidjs";
 import { parseFeed } from 'feedsmith'
 import { JSDOM } from 'jsdom'
+import { request } from "node:http";
 
 const app = express();
-
 
 const scrapeAndUpdateTweakers = async function () {
   const tweakersActiveTopicsResponse = await fetch('https://gathering.tweakers.net/rss/list_activetopics')
@@ -49,7 +49,6 @@ const scrapeAndUpdateTweakers = async function () {
 }
 
 // scrapeAndUpdateTweakers()
-
 
 app.use(express.urlencoded({ extended: true }))
 
@@ -107,8 +106,6 @@ app.get('/', async (request, response) => {
   const formattedTopics = totalTopics.toLocaleString('nl-NL');
   const formattedMessages = totalMessages.toLocaleString('nl-NL');
 
-  console.log(formattedMessages);
-
   response.render('index.liquid', {
     items: items,
     totalTopics: formattedTopics,
@@ -116,6 +113,15 @@ app.get('/', async (request, response) => {
     averagePerTopic: averagePerTopic
   });
 });
+
+app.get('/users', async (request, response) => {
+  const userResponse = await fetch('https://fdnd-agency.directus.app/items/tweakers_users')
+  const userResponseJson = await userResponse.json()
+
+  response.render('users.liquid', {
+    users: userResponseJson.data
+  })
+})
 
 app.get('/categorie/:id', async function (request, response) {
   const rssResponse = await fetch(`${baseURL}list_topics/${request.params.id}`)

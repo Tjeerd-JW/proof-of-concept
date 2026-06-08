@@ -24,8 +24,8 @@
         {% assign catID = splitURL[5] %}
         {% assign x = item[xValue] %}
         {% assign y = item[yValue] %}
-        {% assign xPosition = x | divided_by: maxX | times: 98 %}
-        {% assign yPosition = y | divided_by: maxY | times: 98 %}
+        {% assign xPosition = x | divided_by: maxX | times: 99 %}
+        {% assign yPosition = y | divided_by: maxY | times: 99 %}
 
         <a
           href="/categorie/{{catID}}"

@@ -1,0 +1,10 @@
+{% render 'partials/head.liquid', title: 'Dashboard' %}
+
+<section class="layout">
+  <h1 class="container">Users</h1>
+</section>
+
+{% render 'partials/leaderboard.liquid', rankedBy: 'Messages', users: users %}
+
+
+{% render 'partials/foot.liquid' %}
