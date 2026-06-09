@@ -114,7 +114,7 @@ app.get('/', async (request, response) => {
 });
 
 app.get('/users', async (request, response) => {
-  scrapeAndUpdateTweakers()
+  // scrapeAndUpdateTweakers()
   const params = {
     sort: "-number_of_posts"
   }

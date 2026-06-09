@@ -320,6 +320,7 @@
     grid-template-columns: repeat(auto-fit, minmax(125px, 140px));
     justify-content: space-between;
     gap: var(--space-xs);
+    margin: var(--space-xs) 0;
 
     li {
         a {
