@@ -2,6 +2,59 @@
     padding: var(--space-md) 0;
     background-color: var(--brand);
 
+    .logo-desktop {
+        display: none;
+
+        @media (min-width: 660px) {
+            display: block;
+        }
+    }
+
+    .logo-mobile {
+
+        display: block;
+
+        @media (min-width: 660px) {
+            display: none;
+        }
+    }
+
+    nav {
+        display: flex;
+        justify-content: space-between;
+        align-self: center;
+        font-size: var(--space-lg);
+    }
+}
+
+.nav-link {
+    color: var(--color-white);
+    text-decoration: none;
+    font-family: var(--font-heading);
+    align-self: center;
+    position: relative;
+
+    @media (prefers-reduced-motion: no-preference) {
+        transition: .3s ease;
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: calc(var(--space-3xs) * -1);
+        height: var(--space-3xs);
+        width: 0%;
+        background: currentColor;
+        transition: inherit;
+    }
+}
+
+.nav-link:hover::after,
+.nav-link:focus-visible::after {
+    width: 100%;
+    transform: scaleX(1);
+    transition: inherit;
 }
 
 .dashboard-table {
@@ -324,7 +377,7 @@
 
     li {
         a {
-            height: 140px;
+            height: 150px;
             display: grid;
             justify-content: center;
             background-color: var(--color-grey-65);
@@ -351,6 +404,7 @@
             p {
                 text-align: center;
                 max-width: 90px;
+                margin: 0 auto;
             }
 
             &:hover,
