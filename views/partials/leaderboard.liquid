@@ -1,14 +1,38 @@
 <section class="layout user-leaderboard">
   <article class="container">
     <h2>Users ranked by {{ rankedBy }}</h2>
-    <ol>
-      {% for user in users %}
+    <ol class="top-three">
+      {% for user in users limit: 3 %}
         <li>
-          <h2>{{ user.username }}</h2>
-          <img src="https://tweakers.net/identicon/{{user.forum_id}}" alt="">
-          <p>{{ user.member_since }}</p>
-          <p>{{ user.number_of_posts }}</p>
-          <a href="/profile/{{ user.username }}"> Details</a>
+          <img height="60" width="60" src="https://tweakers.net/identicon/{{user.forum_id}}" alt="">
+
+          <div class="podium">
+            <h3>{{ user.username }}</h3>
+            <p>
+              aantal {{ rankedBy }}
+              <strong> {{ user.number_of_posts }}</strong>
+            </p>
+            <p>
+              lid sinds <strong>{{ user.member_since }}</strong>
+            </p>
+            <a class="primary-button" href="/profile/{{ user.username }}"> Details</a>
+          </div>
+        </li>
+      {% endfor %}
+    </ol>
+    <h3>de rest</h3>
+    <ol class="leaderboard">
+      {% for user in users offset: 3 %}
+        <li>
+          <a href="/profile/{{ user.username }}">
+            <h4>{{ user.username }}</h4>
+            <img src="https://tweakers.net/identicon/{{user.forum_id}}" alt="{{user.username}} identicon">
+
+            <p>
+              aantal {{ rankedBy }}
+              <strong> {{ user.number_of_posts }}</strong>
+            </p>
+          </a>
         </li>
       {% endfor %}
     </ol>

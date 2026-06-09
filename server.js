@@ -48,8 +48,6 @@ const scrapeAndUpdateTweakers = async function () {
   }
 }
 
-// scrapeAndUpdateTweakers()
-
 app.use(express.urlencoded({ extended: true }))
 
 app.use(express.static("public"));
@@ -67,6 +65,7 @@ app.listen(app.get('port'), function () {
 })
 
 const baseURL = 'https://gathering.tweakers.net/rss/'
+const directusURL = 'https://fdnd-agency.directus.app/items/tweakers_'
 
 app.get('/', async (request, response) => {
   const rssResponse = await fetch(baseURL);
@@ -115,7 +114,12 @@ app.get('/', async (request, response) => {
 });
 
 app.get('/users', async (request, response) => {
-  const userResponse = await fetch('https://fdnd-agency.directus.app/items/tweakers_users')
+  scrapeAndUpdateTweakers()
+  const params = {
+    sort: "-number_of_posts"
+  }
+
+  const userResponse = await fetch(directusURL + 'users/?' + new URLSearchParams(params))
   const userResponseJson = await userResponse.json()
 
   response.render('users.liquid', {

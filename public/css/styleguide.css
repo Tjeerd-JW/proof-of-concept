@@ -201,7 +201,6 @@ h6 {
   &:hover {
     cursor: pointer;
     background-color: var(--button-secondary);
-    margin-left: var(--space-2xs);
   }
 }
 
