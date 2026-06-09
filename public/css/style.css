@@ -236,14 +236,15 @@
 
 .top-three {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(3, fit-content);
     grid-template-rows: repeat(6, .5fr);
+    justify-content: center;
 
     li {
         display: grid;
-        flex-direction: column;
         justify-content: space-between;
         text-decoration: none;
+        width: clamp(95px, 100%, 150px);
 
         @media (prefers-reduced-motion: no-preference) {
             transition: .3s ease;
