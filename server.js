@@ -144,7 +144,23 @@ app.get('/topic/:id', async function (request, response) {
   const responseXML = await rssResponse.text()
   const { format, feed } = parseFeed(responseXML)
 
-  response.render('topic.liquid', { items: feed.items })
+
+  const people = [];
+
+  feed.items.forEach(item => {
+    people.push(item.title);
+  });
+
+  const peopleWithCounts = Object.entries(
+    people.reduce((acc, name) => {
+      acc[name] = (acc[name] || 0) + 1;
+      return acc;
+    }, {})
+  ).map(([name, count]) => ({ name, count }));
+
+  console.log(peopleWithCounts);
+
+  response.render('topic.liquid', { items: feed.items, peopleCount: peopleWithCounts })
 
 })
 

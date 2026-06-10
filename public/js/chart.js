@@ -1,16 +1,23 @@
 const chart = document.querySelector(".chart");
 const extraInfo = document.querySelector(".extra-info")
 let allDots = document.querySelectorAll('.point')
+let supportsPopOver = false
 
+if ("popover" in document.body) {
+    supportsPopOver = true
+
+}
+
+console.log(supportsPopOver)
 const supportsInterest = Object.hasOwn(
     HTMLButtonElement.prototype,
     "interestForElement",
 );
 
-const supportsPopOver = Object.hasOwn(
-    HTMLElement.prototype,
-    "popover"
-);
+// const supportsPopOver = Object.hasOwn(
+//     HTMLElement.prototype,
+//     "popover"
+// );
 
 
 if (!supportsInterest) {
