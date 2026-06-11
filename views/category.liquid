@@ -1,6 +1,5 @@
 {% render 'partials/head.liquid', title: 'Categorie' %}
 
-
 <section class="layout">
   <h1 class="container">{{ title }}</h1>
 </section>
@@ -15,25 +14,35 @@
       <h2>Berichten</h2>
       <p>{{ totalReplies }}</p>
     </article>
-
   </div>
 </section>
 
-{% comment %} {{ items | json }} {% endcomment %}
+{% render 'partials/piechart.liquid', chartData: peopleCount, names: 'name', values: 'count', limit: 10 %}
+
 <section class="layout">
   <article class="container">
-    <ul>
-      {% for item in items %}
-        {% assign topicID = item.comments | split: '/' %}
-
-        <li>
-          <h3>{{ item.title }}</h3>
-          <p>{{ item.replies }}</p>
-          {{ item.link }}
-          <a href="/topic/{{topicID[5]}}">Bekijken</a>
-        </li>
-      {% endfor %}
-    </ul>
+    <table class="container dashboard-table">
+      <caption>
+        <h2>Meest actieve topics</h2>
+      </caption>
+      <thead>
+        <tr>
+          <th><h3>Categorie</h3></th>
+          <th>Berichten</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in items %}
+          {% assign catID = item.link | split: '/' %}
+          <tr>
+            <th>
+              <a href="/topic/{{catID[5]}}">{{ item.title }}</a>
+            </th>
+            <td>{{ item.replies }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </article>
 </section>
 

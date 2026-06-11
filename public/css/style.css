@@ -141,10 +141,33 @@
     }
 }
 
-.two-blocks{
+.two-blocks {
     @media (min-width: 600px) {
         grid-template-columns: 1fr 1fr;
 
+    }
+}
+
+.chart-blocks {
+    @media (min-width: 600px) {
+        grid-template-columns: 1fr 2fr;
+
+    }
+
+    ol {
+        li {
+            display: flex;
+            justify-content: space-between;
+
+            h3 {
+                text-wrap: nowrap;
+            }
+
+            p {
+                font-size: var(--space-md);
+                place-content: center;
+            }
+        }
     }
 }
 

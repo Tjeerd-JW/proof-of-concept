@@ -1,0 +1,38 @@
+{% assign totalValue = 0 %}
+{% assign name = names %}
+{% assign value = values %}
+
+{% for item in chartData limit: limit %}
+  {% assign totalValue = totalValue | plus: item[value] %}
+{% endfor %}
+
+<section class="layout">
+  <div class="container stat-blocks chart-blocks">
+    <article>
+      <h2>Top 10 gebruikers</h2>
+      <ol>
+        {% for item in chartData limit: limit %}
+          <li>
+            <h3>
+              {{ item.name }}
+            </h3>
+            <p>{{ item.count }} Posts</p>
+          </li>
+        {% endfor %}
+      </ol>
+    </article>
+
+    <article>
+      <h2>Piechart</h2>
+      <p>Yummy taart {{ totalValue }}</p>
+      {% for item in chartData limit: limit %}
+        {% assign procent = item.count | divided_by: totalValue |  times: 100  %}
+        {% assign totalprocent = totalprocent |  plus: procent %}
+        <p>
+          {{ item.name }}
+          {{ procent | floor }}%
+        </p>
+      {% endfor %}
+    </article>
+  </div>
+</section>

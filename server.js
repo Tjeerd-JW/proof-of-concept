@@ -97,7 +97,6 @@ app.get('/', async (request, response) => {
     return 0;
   })
 
-
   const totalTopics = items.reduce((sum, c) => sum + c.topics, 0);
   const totalMessages = items.reduce((sum, c) => sum + c.messages, 0);
   const averagePerTopic = totalMessages / totalTopics
@@ -162,36 +161,36 @@ app.get('/categorie/:id', async function (request, response) {
 
     return {
       title: item.title,
-      link: item.link,
+      link: item.comments,
       replies,
     };
   });
 
+  items.sort(function (a, b) {
+    if (a.replies < b.replies) {
+      return 1;
+    } else if (a.replies > b.replies) {
+      return -1;
+    }
+    return 0;
+  })
+
 
   const totalReplies = items.reduce((sum, c) => sum + c.replies, 0);
   const formattedReplies = totalReplies.toLocaleString('nl-NL');
-
-
-
-  console.log(peopleWithCounts);
-
 
   response.render('category.liquid', {
     items: items,
     title: feed.title,
     peopleCount: peopleWithCounts,
     totalReplies: formattedReplies
-
   })
-
 })
 
 app.get('/topic/:id', async function (request, response) {
   const rssResponse = await fetch(`${baseURL}list_messages/${request.params.id}`)
   const responseXML = await rssResponse.text()
   const { format, feed } = parseFeed(responseXML)
-
-
   const people = [];
 
   feed.items.forEach(item => {
@@ -222,7 +221,6 @@ app.get('/profile/:name', async function (request, response) {
   const messagesResponse = await fetch(`${baseURL}find/poster/${request.params.name}/messages`)
   const messagesXML = await messagesResponse.text()
   const { feed: messagesFeed } = parseFeed(messagesXML)
-
 
   response.render('profile.liquid', {
     topics: topicsFeed.items,
