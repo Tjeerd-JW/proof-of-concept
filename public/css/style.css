@@ -141,6 +141,13 @@
     }
 }
 
+.two-blocks{
+    @media (min-width: 600px) {
+        grid-template-columns: 1fr 1fr;
+
+    }
+}
+
 .chart {
     position: relative;
     width: 100%;

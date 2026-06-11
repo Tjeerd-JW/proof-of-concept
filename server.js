@@ -132,8 +132,55 @@ app.get('/categorie/:id', async function (request, response) {
   const responseXML = await rssResponse.text()
   const { format, feed } = parseFeed(responseXML)
 
+  const people = [];
+
+  feed.items.forEach(item => {
+    people.push(item.dc.creator);
+  });
+
+
+  const peopleWithCounts = Object.entries(
+    people.reduce((acc, name) => {
+      acc[name] = (acc[name] || 0) + 1;
+      return acc;
+    }, {})
+  ).map(([name, count]) => ({ name, count }));
+
+
+  peopleWithCounts.sort(function (a, b) {
+    if (a.count < b.count) {
+      return 1;
+    } else if (a.count > b.count) {
+      return -1;
+    }
+    return 0;
+  })
+
+  const items = feed.items.map(item => {
+    const description = item.description ?? '';
+    const replies = Number(description.match(/Replies:\s*(\d+)/)?.[1] ?? 0);
+
+    return {
+      title: item.title,
+      link: item.link,
+      replies,
+    };
+  });
+
+
+  const totalReplies = items.reduce((sum, c) => sum + c.replies, 0);
+  const formattedReplies = totalReplies.toLocaleString('nl-NL');
+
+
+
+  console.log(peopleWithCounts);
+
+
   response.render('category.liquid', {
-    items: feed.items,
+    items: items,
+    title: feed.title,
+    peopleCount: peopleWithCounts,
+    totalReplies: formattedReplies
 
   })
 
@@ -160,7 +207,10 @@ app.get('/topic/:id', async function (request, response) {
 
   console.log(peopleWithCounts);
 
-  response.render('topic.liquid', { items: feed.items, peopleCount: peopleWithCounts })
+  response.render('topic.liquid', {
+    items: feed.items,
+    peopleCount: peopleWithCounts
+  })
 
 })
 

@@ -1,12 +1,23 @@
 {% render 'partials/head.liquid', title: 'Categorie' %}
 
+
 <section class="layout">
-    <h1 class="container">Statistieken </h1>
+  <h1 class="container">{{ title }}</h1>
 </section>
-<details>
-  <summary>Debug</summary>
-  <pre>{{ items | json: 4 }}</pre>
-</details>
+
+<section class="layout">
+  <div class="container stat-blocks two-blocks">
+    <article>
+      <h2>Topics</h2>
+      <p>{{ items.size }}</p>
+    </article>
+    <article>
+      <h2>Berichten</h2>
+      <p>{{ totalReplies }}</p>
+    </article>
+
+  </div>
+</section>
 
 {% comment %} {{ items | json }} {% endcomment %}
 <section class="layout">
@@ -17,7 +28,7 @@
 
         <li>
           <h3>{{ item.title }}</h3>
-
+          <p>{{ item.replies }}</p>
           {{ item.link }}
           <a href="/topic/{{topicID[5]}}">Bekijken</a>
         </li>
