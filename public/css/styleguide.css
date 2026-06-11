@@ -202,6 +202,12 @@ h6 {
     cursor: pointer;
     background-color: var(--button-secondary);
   }
+
+  &:focus {
+    background-color: var(--button-secondary);
+    outline: var(--space-3xs) solid var(--color-white);
+    outline-offset: calc(var(--space-xs) * -1);
+  }
 }
 
 /* container */
