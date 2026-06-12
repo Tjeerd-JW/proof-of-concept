@@ -317,6 +317,33 @@
     }
 }
 
+
+.pie-chart {
+    background:
+        radial-gradient(circle closest-side,
+            transparent 66%,
+            white 0),
+        conic-gradient(#4e79a7 0,
+            #4e79a7 38%,
+            #f28e2c 0,
+            #f28e2c 61%,
+            #e15759 0,
+            #e15759 77%,
+            #76b7b2 0,
+            #76b7b2 87%,
+            #59a14f 0,
+            #59a14f 93%,
+            #edc949 0,
+            #edc949 100%);
+    position: relative;
+    width: 500px;
+    min-height: 350px;
+    margin: 0;
+    outline: 1px solid #ccc;
+
+    
+}
+
 .top-three {
     display: grid;
     grid-template-columns: repeat(3, fit-content);

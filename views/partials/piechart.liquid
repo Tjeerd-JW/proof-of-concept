@@ -1,6 +1,9 @@
 {% assign totalValue = 0 %}
+{% assign currentValue = 0 %}
 {% assign name = names %}
 {% assign value = values %}
+{% assign colors = '#4e79a7,#f28e2c,#4e79a7,#f28e2c,#4e79a7,#f28e2c,#4e79a7,#f28e2c,#4e79a7,#f28e2c,#4e79a7,#f28e2c' %}
+{% assign colors = colors | split: ',' %}
 
 {% for item in chartData limit: limit %}
   {% assign totalValue = totalValue | plus: item[value] %}
@@ -25,14 +28,28 @@
     <article>
       <h2>Piechart</h2>
       <p>Yummy taart {{ totalValue }}</p>
-      {% for item in chartData limit: limit %}
-        {% assign procent = item.count | divided_by: totalValue |  times: 100  %}
-        {% assign totalprocent = totalprocent |  plus: procent %}
+
+      {% comment %}
         <p>
           {{ item.name }}
           {{ procent | floor }}%
         </p>
-      {% endfor %}
+      {% endcomment %}
+
+      <figure
+        class="pie-chart"
+        style="
+          background: radial-gradient(circle closest-side,
+            transparent 66%,
+            white 0),conic-gradient(
+                {% for item in chartData limit: limit %}
+                  {% assign procent = item.count | divided_by: totalValue | times: 100 %}
+                  {% assign currentValue = currentValue | plus: procent %}
+                  {{colors[forloop.index]}} 0,
+                  {{colors[forloop.index]}} {{ currentValue }}%{% unless forloop.last %},{% endunless %}
+                {% endfor %}
+            )"
+      ></figure>
     </article>
   </div>
 </section>
